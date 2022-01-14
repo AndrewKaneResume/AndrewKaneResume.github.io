@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+canvas{
+      position:absolute;
+      left:0;
+      top:0;
+      z-index:-1;
+    }
+* {
+  box-sizing: border-box;
+}
+h2 {text-align: center;}
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="600" style="border:1px solid #c3c3c3;">
+    Your browser does not support the canvas element.
+  </canvas>
+
+<h2>Education</h2>
+B.A. Physics, Lawrence University <br>
+B.A. Philosophy, Lawrence University <br>
+
+<div class="row">
+  <div class="column" >
+    <h2>Software Designer</h2>
+    <p>Videogames: <br>
+      <a href="https://kanethemediocre.github.io/">Bling Hustle, </a>
+        an open world space adventure with procedural content.  Written in javascript with no dependencies<br>
+        <a href="https://kanethemediocre.github.io/">BoomiBois, </a>
+        A fast paced online multiplayer arcade game.  Written in javascript with Express and Socket.io, running on a NodeJS server.<br>
+      </p>
+    <p>3d printing software: <br>
+      <a href="https://github.com/kanethemediocre/1strand">1strand Bushing Tool, </a>
+      A g-code generator to produce arbitrary bushings.  Written in Python<br>
+      <a href="https://github.com/kanethemediocre/1strand">1strand Manual Path, </a>
+      A g-code generator to produce arbitrary closed-loop paths.  Written in Javascript<br>
+    </p>
+    <p>Languages: <br>
+    Javascript<br>
+    Python<br>
+    C++ <br>
+    IDL, Fortran, Excel <br>
+    </p>
+  </div>
+  <div class="column">
+    <h2>Mechanical Designer</h2>
+    <p>Experience: <br>
+      8 years experience in mechatronics automation <br>
+      Designed custom coil manufacturing machines at Machine Control Services. <br>
+      Designed and built a foam dart manufacturing machine <a href="https://www.youtube.com/watch?v=3loGuACvyXA">foam dart manufacturing machine</a> <br>
+      Designed and sold many unique toy blasters through <a href="https://sites.google.com/site/mostlyharmlessarms/">Mostly Harmless Arms</a> partnership <br>
+      <a href="https://www.thingiverse.com/kanethemediocre/designs">My designs on Thingiverse</a> <br>
+    </p>
+      <p>
+      Skills:<br>
+      Solidworks and Inventor modelling and drafting<br>
+      CNC and manual machine tool experience <br>
+      Electronics fabrication/troubleshooting including surface and pin mount soldering <br>
+      FDM 3d printing <br>
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+<script type="text/javascript" src="umo.js"></script>
+<script type="text/javascript" src="graphics.js"></script>
+<script type="text/javascript" src="bubblesplosion.js"></script>
+<script type="text/javascript" src="system.js"></script>
+<script type="text/javascript" src="turrets.js"></script>
+<script>
+  const FPS = 30;
+setInterval(update, 1000 / FPS);// set up interval (game loop)
+canvas = document.getElementById("myCanvas"); //canvas is the draw sauce.
+context = canvas.getContext("2d");
+context.canvas.width  = window.innerWidth-24; //This overrides the 1600x900 established in html.
+context.canvas.height = window.innerHeight-24;
+let demosystem = new System(0,"demo",0,0);
+	let sun = new Umo(0, 0, 64, "orange"); //planet initialization/////////////
+	sun.name = "";
+	let murc = new Umo(0,8000,32,"brown");//1//initial position irrelevant
+	murc.name = "";
+	murc.setorbit(sun, 220, Math.random()*6, 1);
+	murc.parentid = 0;
+	murc.c2 = "darkred";
+	let vnus = new Umo(0,320,24,"darkgreen");//2
+	vnus.name = "";
+	vnus.setorbit(sun, 320,  Math.random()*6, 1);
+	vnus.parentid = 0;
+	vnus.c2 = "brown";	
+	let earf = new Umo(0, 420, 48, "navy"); //3
+	earf.setorbit(sun, 420, Math.random()*6, 1);
+	earf.name = "";
+	earf.parentid = 0;
+	earf.c2 = "darkgreen";
+	let moon = new Umo(1000, 560, 44, "purple"); //4
+	moon.name = "";
+	moon.setorbit(sun, 560, Math.random()*6, 1);
+	moon.parentid = 0;
+	moon.c2 = "darkgreen";
+	let merz = new Umo(0, 720, 40, "darkred");//5
+	merz.name = "";						
+	merz.setorbit(sun, 720, Math.random()*6, 1);
+	merz.parentid = 0;
+	merz.c2 = "navy";
+demosystem.planets = [sun,murc,vnus,earf,moon,merz];
+var i = 0; //This randomizes planetary dots for home system.
+while (i<demosystem.planets.length){
+	var j=0;
+	var extradots = Math.floor(Math.random()*3);
+	while(extradots>0){
+		demosystem.planets[i].polyradius.push(0);
+		demosystem.planets[i].polytheta.push(0);
+		extradots = extradots - 1;
+		}
+	while (j<demosystem.planets[i].polytheta.length){
+		demosystem.planets[i].polyradius[j] = Math.random()+0.125;
+		demosystem.planets[i].polytheta[j] = Math.random()*2*Math.PI;
+		j=j+1;
+		}
+	i=i+1;
+	}
+demosystem.enemypopulate(5,4,17);
+
+function update(){
+  context.fillStyle = "skyblue";//Background is black
+  context.fillRect(0, 0, canvas.width, canvas.height); //rectangle the size of the canvas.
+  demosystem.draw2(0,-1*canvas.height/2);
+	demosystem.updateall(); //Updates everthing in system
+	demosystem.gravitateall(); //gravitates everything in system
+	demosystem.collideself(); //executes all collisions between objects in the system.
+}
+
+</script>
