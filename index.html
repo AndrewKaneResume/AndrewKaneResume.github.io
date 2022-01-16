@@ -12,9 +12,15 @@ canvas{
 * {
   box-sizing: border-box;
 }
+p {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
 h1 {text-align: center;}
 h2 {text-align: center;}
 
+h4 {text-align: center;}
 
 /* Create two equal columns that floats next to each other */
 .column {
@@ -48,15 +54,13 @@ h2 {text-align: center;}
     <p><a href="https://kanethemediocre.github.io/">Bling Hustle, </a>
       an open world space adventure including procedural systems, enemies, and missions.<br>
       Written in javascript with no dependencies<br>
-      <a href=http://3.19.246.243:3000>BoomiBois, </a>
+      <a href="http://3.19.246.243:3000">BoomiBois, </a>
       an online multiplayer arcade action game about bombs, bling, and getting big.<br>
       Written in javascript with Express and Socket.io, running on a Node.js server.<br>
       <a href="https://github.com/kanethemediocre/1strand">1strand Bushing Tool, </a>
      g-code software to help 3d printers produce arbitrary bushings from a continuous strand.  Written in Python<br>
-      <a href="https://github.com/kanethemediocre/1strand">NotASlicer, </a>
+      <a href="notaslicer50.html">NotASlicer, </a>
       a g-code generator to produce arbitrary closed-loop paths defined by the user in a GUI.  Written in Javascript<br>
-    </p>
-    <p>
       <h3>Languages:</h3>
       <ul>
         <li>Javascript</li>
@@ -73,9 +77,6 @@ h2 {text-align: center;}
       Designed and built a <a href="https://www.youtube.com/watch?v=3loGuACvyXA">foam dart manufacturing machine</a> independently to produce a new type ammo that was safer than anything available to the high performance blaster community<br>
       Designed and sold unique toy blasters. <br>
       <a href="https://www.thingiverse.com/kanethemediocre/designs">My designs on Thingiverse</a> <br>
-    </p>
-      <p>
-
       <h3>Technical Skills:</h3>
       <ul>
         <li>Solidworks and Inventor modelling and drafting</li>
@@ -86,12 +87,14 @@ h2 {text-align: center;}
     </p>
   </div>
 </div>
+<br>
+<br>
 <h2>Education</h2>
-<div text-align: center>
+<h3></h3>
+<h4>
 B.A. Physics, Lawrence University <br>
 B.A. Philosophy, Lawrence University <br>
-</div>
-</h5>
+</h4>
 </body>
 </html>
 
@@ -153,7 +156,7 @@ while (i<demosystem.planets.length){
 		}
 	i=i+1;
 	}
-demosystem.enemypopulate(5,4,17);
+demosystem.enemypopulate(5,4,10);
 
 function update(){
   context.fillStyle = "skyblue";//Background is black
