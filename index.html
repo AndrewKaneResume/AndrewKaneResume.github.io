@@ -15,19 +15,41 @@ canvas{
 p {
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
+    color: skyblue
+  }
+p2 {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: skyblue
   }
 
-h1 {text-align: center;}
-h2 {text-align: center;}
+h1 {text-align: center;
+  color: skyblue;}
+h2 {text-align: center;
+  color: skyblue}
+h3 {text-align: center;
+  color: skyblue}
+h4 {text-align: center;
+  color: skyblue;
+  font-size: 14px;}
+a:link {
+  color: cyan;
+  background-color: transparent;
+  text-decoration: none;
+}
 
-h4 {text-align: center;}
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
 
 /* Create two equal columns that floats next to each other */
 .column {
   float: left;
   width: 50%;
   padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
 }
 
 /* Clear floats after the columns */
@@ -45,9 +67,7 @@ h4 {text-align: center;}
 <h1>
   Andrew Kane
 </h1>
-<h2>
-<a href="AndrewKaneResume2022.pdf" download>View PDF resume</a>
-</h2>
+
 <div class="row">
   <div class="column" >
     <h2>Software</h2>
@@ -57,13 +77,13 @@ h4 {text-align: center;}
       <a href="http://3.19.246.243:3000">BoomiBois, </a>
       an online multiplayer arcade action game about bombs, bling, and getting big.<br>
       Written in javascript with Express and Socket.io, running on a Node.js server.<br>
-      <a href="NASBushing6.html">Not A Slicer Bushing tool, </a>
+      <a href="NASBushing9.html">Not A Slicer Bushing tool, </a>
      3d printing software to help produce arbitrary bushings from a continuous strand of plastic.  Originally written as a command line Python application, link goes to Javascript GUI adaptation.<br>
       <a href="notaslicer52.html">NotASlicer, </a>
       3d printing software for arbitrary closed-loop paths defined by the user in a GUI.  Written in Javascript.<br>
       <a href="https://github.com/kanethemediocre">My programs on Github</a> <br>
       <h3>Languages:</h3>
-      <ul>
+      <ul style="color: skyblue;">
         <li>Javascript</li>
         <li>Python</li>
         <li>C++ </li>
@@ -80,23 +100,27 @@ h4 {text-align: center;}
 
       <a href="https://www.thingiverse.com/kanethemediocre/designs">My designs on Thingiverse</a> <br>
       <h3>Technical Skills:</h3>
-      <ul>
-        <li>Solidworks and Inventor modelling and drafting</li>
+      <ul style="color: skyblue;">
+        <li>Solidworks and Inventor machine design, modelling, drafting, and documentation</li>
+        <li>Mechanical problem solving and tool design</li>
         <li>Professional CNC and manual machine tool experience </li>
-        <li>Electronics fabrication and troubleshooting including surface and pin mount soldering </li>
-        <li>FDM 3d printing including development of custom g-codesoftware</li>
+        <li>Electronics fabrication, modification, and troubleshooting</li>
+        <li>FDM 3d printing including development of custom g-code software</li>
+
       </ul>
     </p>
   </div>
 </div>
-<br>
-<br>
-<h2>Education</h2>
-<h3></h3>
-<h4>
-B.A. Physics, Lawrence University <br>
-B.A. Philosophy, Lawrence University <br>
-</h4>
+  <h2> Education</h2>
+ <h3>
+  B.A. Physics and Philosophy Lawrence University 
+</h3>
+<h2></h2><h3>
+  <a href="AndrewKaneResume2022.pdf" download>View PDF resume</a>
+  </h3>
+
+
+</div>
 </body>
 </html>
 
@@ -106,6 +130,7 @@ B.A. Philosophy, Lawrence University <br>
 <script type="text/javascript" src="bubblesplosion.js"></script>
 <script type="text/javascript" src="system.js"></script>
 <script type="text/javascript" src="turrets.js"></script>
+<script type="text/javascript" src="starfield.js"></script>
 <script>
   const FPS = 30;
 setInterval(update, 1000 / FPS);// set up interval (game loop)
@@ -114,8 +139,9 @@ context = canvas.getContext("2d");
 context.canvas.width  = window.innerWidth-24; //This overrides the 1600x900 established in html.
 context.canvas.height = window.innerHeight-24;
 let demosystem = new System(0,"demo",0,0);
-	let sun = new Umo(0, 0, 64, "orange"); //planet initialization/////////////
+	let sun = new Umo(0, 0, 64, "yellow"); //planet initialization/////////////
 	sun.name = "";
+  sun.c2="yellow";
 	let murc = new Umo(0,8000,32,"brown");//1//initial position irrelevant
 	murc.name = "";
 	murc.setorbit(sun, 220, Math.random()*6, 1);
@@ -159,10 +185,14 @@ while (i<demosystem.planets.length){
 	i=i+1;
 	}
 demosystem.enemypopulate(5,4,10);
-
+let demofield = new Starfield(30000,20000,64,1000,4000,16);
+var pz = 0;
 function update(){
-  context.fillStyle = "skyblue";//Background is black
+  if (pz<demofield.zmax){ pz=pz+0.01; }
+  else {pz = 0;}
+  context.fillStyle = "black";//"skyblue";//Background
   context.fillRect(0, 0, canvas.width, canvas.height); //rectangle the size of the canvas.
+  demofield.draw(0,0,pz,demofield.zmax);
   demosystem.draw2(0,-1*canvas.height/2);
 	demosystem.updateall(); //Updates everthing in system
 	demosystem.gravitateall(); //gravitates everything in system
