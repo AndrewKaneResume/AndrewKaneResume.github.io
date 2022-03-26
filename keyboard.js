@@ -5,24 +5,26 @@ window.addEventListener("keydown", function (event) {
     }
     switch (event.key) { 
   
-      case "ArrowDown": 
-          cakelevel++;
+      case "ArrowDown": 	  
+		  cakelevel--;
+          if ((cakelevel<0)&&(partclass==0))
+              {cakelevel = cakeids.length-1;}
+          else if ((cakelevel<0)&&(partclass==1))
+              {cakelevel = tcakeids.length-1; }
+		  
+          freshstagevalues();
+            break;
+      case "ArrowUp": 
+	  
+	      cakelevel++;
           if ((cakelevel>=cakeids.length)&&(partclass==0))
               {cakelevel = 0;}
           else if ((cakelevel>=tcakeids.length)&&(partclass==1))
               {cakelevel = 0;}
           freshstagevalues();
-            break;
-      case "ArrowUp": 
-          cakelevel--;
-          if ((cakelevel<0)&&(partclass==0))
-              {cakelevel = cakeids.length-1;}
-          else if ((cakelevel<0)&&(partclass==1))
-              {cakelevel = tcakeids.length-1; }
-          freshstagevalues();
             break;		  
-      case "-": 
-          if (scale>1){scale=scale-1;}
+      case "q": 
+         //Do nothing.
           break;	  
       default:
         return; // Quit when this doesn't handle the key event.

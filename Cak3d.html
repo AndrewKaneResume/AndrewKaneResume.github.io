@@ -16,7 +16,7 @@
  </head>
  <body>
     <div class="row">
-        <div class="column" style="background-color:#FFFFFF; column-width: 800px;" >
+        <div class="column" style="background-color:#FFFFFF; column-width: 800px;" id="canvascolumn">
                <canvas id="gameCanvas" width="800" height="800"></canvas>
 <script type="text/javascript" src="discperimeter.js"></script>	
 <script type="text/javascript" src="disc.js"></script>	
@@ -62,6 +62,8 @@ function draw3dpath(axpath,aypath,azpath,originx,originy,ascale,acolor){
 		}
 	}
 var time=0;
+var chartstarty = 0;
+var lefthand = true;
 var mousex = 0;
 var mousey = 0;
 var	mousedx = 0;
@@ -116,6 +118,8 @@ var cakeods = [40,30,20];
 var cakehs = [0,0.5,16,32];
 var cakelevel = 0;
 var currentcake = new Cake(centerx,centery,cakeids,cakeods,cakehs,nozzle,layerheight,numsides,GooCoefficient,feedrate,-1,0,htrans,vtrans);
+var pastcake = currentcake;
+
 var tcakeids = [12,12,12,12,12,24];
 var tcakeods = [40,40,32,24,24,32];
 var tcakehs = [0,0.5,0.5,16,40,64];
@@ -135,7 +139,7 @@ function freshstagevalues(){
 	if (partclass==0){
 		document.getElementById('radius1').value = cakeids[cakelevel]; 
 		document.getElementById('radius2').value = cakeods[cakelevel]; 
-		 document.getElementById('height2').value = cakehs[cakelevel+1]; 
+		document.getElementById('height2').value = cakehs[cakelevel+1]; 
 		}
 	if (partclass==1){ 
 		document.getElementById('radius1').value = tcakeids[cakelevel]; 
@@ -143,6 +147,20 @@ function freshstagevalues(){
 		document.getElementById('height2').value = tcakehs[cakelevel]; 
 		}
 	}
+//freshstagevalues(); //This function doesn't work until later in the file.  
+function freshsettingvalues(){ //Refreshes global setting HTML element values to match program variables.
+		document.getElementById('centerx').value = centerx;
+		document.getElementById('centery').value = centery;
+		document.getElementById('height1').value = cakehs[0];
+		document.getElementById('layerheightnum').value = layerheight;
+		document.getElementById('nozzlenum').value = nozzle;
+		document.getElementById('filamentnum').value = filament;
+		document.getElementById('feednum').value = feedrate;
+		document.getElementById('numsides').value = numsides;
+		document.getElementById('htrans').value = htrans;
+		document.getElementById('vtrans').value = vtrans;
+	}
+	//freshsettingvalues(); //This function doesn't work until later in the file. 
 function update() {
 	time++;
 	console.log(centerx);
@@ -159,10 +177,6 @@ function update() {
 	context.fillText("ID ",60,40);
 	context.fillText("OD ",110,40);
 	context.fillText("Height ",160,40);
-	context.strokeStyle = "yellow";
-    context.beginPath()
-    context.rect(4,48+cakelevel*20,208,16);
-    context.stroke();
 	context.fillText("i = "+(animspeed*time),canvas.width-64,32);
 	if (partclass==0){
 		context.fillText("Terrace Mode",10,20);
@@ -171,12 +185,13 @@ function update() {
 		if (cbpv2dt){ currentcake.draw2dtop(toppreviewx,toppreviewy,scale,0); }
 		if (cbpv2ds){ currentcake.draw2dside(sidepreviewx,sidepreviewy,scale,0); }
 		currentcake.animate(previewx,previewy,scale,animspeed,animlength,"lime",time%Math.floor(currentcake.xpath.length/animspeed));
+		chartstarty = 40+20*cakeids.length;
 		var i=0;
 		while(i<cakeids.length){
-			context.fillText(i,10,60+i*20);
-			context.fillText(cakeids[i],60,60+i*20);
-			context.fillText(cakeods[i],110,60+i*20);
-			context.fillText(cakehs[i+1],160,60+i*20);//cakehs[0] is the base height, normally 0 ish.
+			context.fillText(i,10,chartstarty-i*20);
+			context.fillText(cakeids[i],60,chartstarty-i*20);
+			context.fillText(cakeods[i],110,chartstarty-i*20);
+			context.fillText(cakehs[i+1],160,chartstarty-i*20);//cakehs[0] is the base height, normally 0 ish.
 			i++;
 			}
 	}else if (partclass==1){
@@ -186,15 +201,20 @@ function update() {
 		if (cbpv2dt){ currentcake.draw2dtop(toppreviewx,toppreviewy,scale,0); }
 		if (cbpv2ds){ currentcake.draw2dside(sidepreviewx,sidepreviewy,scale,0); }
 		currentcake.animate(previewx,previewy,scale,animspeed,animlength,"lime",time%Math.floor(thetapercake.xpath.length/animspeed));
+		chartstarty = 40+20*tcakeids.length;
 		var i=0;
 		while(i<tcakeids.length){
-			context.fillText(i,10,60+i*20);
-			context.fillText(tcakeids[i],60,60+i*20);
-			context.fillText(tcakeods[i],110,60+i*20);
-			context.fillText(tcakehs[i],160,60+i*20);//cakehs[0] is the base height, normally 0 ish.
+			context.fillText(i,10,chartstarty-i*20);
+			context.fillText(tcakeids[i],60,chartstarty-i*20);
+			context.fillText(tcakeods[i],110,chartstarty-i*20);
+			context.fillText(tcakehs[i],160,chartstarty-i*20);//cakehs[0] is the base height, normally 0 ish.
 			i++;
 			}
 		}
+	context.strokeStyle = "yellow";
+    context.beginPath()
+    context.rect(4,chartstarty-12-cakelevel*20,208,16);
+    context.stroke();
 	if (mdrag){
 		var dragid = document.getElementById("mdid").checked;
 		var dragod = document.getElementById("mdod").checked;
@@ -212,10 +232,13 @@ function update() {
 			context.beginPath();
 			context.arc(sidepreviewx-idvalue*scale,sidepreviewy-hvalue*scale,8, 0, 2 * Math.PI, false);
 			context.stroke();
+			context.beginPath();
+			context.arc(sidepreviewx+idvalue*scale,sidepreviewy-hvalue*scale,8, 0, 2 * Math.PI, false);
+			context.stroke();
 			if (mousedragging){
 				console.log("Ibelievethemouseisdragging")
 				context.fillStyle = "lime";
-				context.fillText(idvalue-mousedx/scale,60+24,60+cakelevel*20);//Print new ID on chart
+				context.fillText(idvalue-mousedx/scale,60+24,chartstarty-cakelevel*20);//Print new ID on chart
 				var midvalue = cakeids[cakelevel]-mousedx/scale;
 				var mhvalue = cakehs[cakelevel+1]-mousedy/scale;
 				if (partclass==1){
@@ -225,6 +248,9 @@ function update() {
 				context.strokeStyle = "lime";
 				context.beginPath();
 				context.arc(sidepreviewx-midvalue*scale,sidepreviewy-mhvalue*scale,8, 0, 2 * Math.PI, false);
+				context.stroke();
+				context.beginPath();
+				context.arc(sidepreviewx+midvalue*scale,sidepreviewy-mhvalue*scale,8, 0, 2 * Math.PI, false);
 				context.stroke();
 				console.log("Itriedtodrawat x="+(sidepreviewx-midvalue*scale)+" y="+(sidepreviewy-mhvalue*scale));
 				}
@@ -242,9 +268,12 @@ function update() {
 			context.beginPath();
 			context.arc(sidepreviewx-odvalue*scale,sidepreviewy-hvalue*scale,8, 0, 2 * Math.PI, false);
 			context.stroke();
+			context.beginPath();
+			context.arc(sidepreviewx+odvalue*scale,sidepreviewy-hvalue*scale,8, 0, 2 * Math.PI, false);
+			context.stroke();
 			if (mousedragging){
 				context.fillStyle = "lime";
-				context.fillText(odvalue-mousedx/scale,110+24,60+cakelevel*20);//Print new OD on chart
+				context.fillText(odvalue-mousedx/scale,110+24,chartstarty-cakelevel*20);//Print new OD on chart
 				var modvalue = cakeods[cakelevel]-mousedx/scale;
 				var mhvalue = cakehs[cakelevel+1]-mousedy/scale;
 				if (partclass==1){
@@ -255,6 +284,9 @@ function update() {
 				context.beginPath();
 				context.arc(sidepreviewx-modvalue*scale,sidepreviewy-mhvalue*scale,8, 0, 2 * Math.PI, false);
 				context.stroke();
+				context.beginPath();
+				context.arc(sidepreviewx+modvalue*scale,sidepreviewy-mhvalue*scale,8, 0, 2 * Math.PI, false);
+				context.stroke();
 				}
 			}
 		if (dragh){
@@ -262,7 +294,7 @@ function update() {
 			var hvalue = tcakehs[cakelevel];
 			if (partclass==0){ hvalue = cakehs[cakelevel+1]; }
 			if (mousedragging){
-				context.fillText(hvalue-mousedx/scale,160+24,60+cakelevel*20);//Print new height on chart
+				context.fillText(hvalue-mousedx/scale,160+24,chartstarty-cakelevel*20);//Print new height on chart
 				//highlight old height line on side view
 				//preview new height line on side view
 				}
@@ -335,19 +367,19 @@ Modify Current Stage
 <br>
 Stage Selection, Creation, and Deletion
 <br>
-<button onclick="cakelevel--;
-	if ((cakelevel<0)&&(partclass==0))
-	{cakelevel = cakeids.length-1;}
-	else if ((cakelevel<0)&&(partclass==1))
-	{cakelevel = tcakeids.length-1; }
-	freshstagevalues();">Previous Stage</button> Select which set of ID, OD, and Radius to modify
-<br>
 <button onclick="cakelevel++;
 	if ((cakelevel>=cakeids.length)&&(partclass==0))
 	{cakelevel = 0;}
 	else if ((cakelevel>=tcakeids.length)&&(partclass==1))
 	{cakelevel = 0;}
-	freshstagevalues();">Next Stage</button> The up and down arrows can also be used to control this.
+	freshstagevalues();">Next Stage</button> Select which set of ID, OD, and Radius to modify
+<br>
+<button onclick="cakelevel--;
+	if ((cakelevel<0)&&(partclass==0))
+	{cakelevel = cakeids.length-1;}
+	else if ((cakelevel<0)&&(partclass==1))
+	{cakelevel = tcakeids.length-1; }
+	freshstagevalues();">Previous Stage</button> The up and down arrows can also be used to control this.
 <br>
 <br>
 <button onclick="if (partclass==0){
@@ -443,7 +475,10 @@ Global Settings
 	freshcake();">Change</button>
 <input type="number" id="vtrans" name="Vtrans" style="width: 6em" value=4 min=0>
 <label for="vtrans">Vertical transition</label>
+<br>
+<button onclick="freshsettingvalues();">refresh settings</button>
 
+<br>
 <br>
 <br>
 Preview Settings<br>
@@ -481,14 +516,17 @@ Preview Settings<br>
 <input type="number" id="sidepreviewy" name="spy" style="width: 6em" value=500>
 <label for="sidepreviewy">2D Side Origin Y</label>
 <br>
+
+
+
 <button onclick="animspeed = parseFloat(document.getElementById('aspeed').value);
 	firstcake = new Cake(centerx,centery,cakeids,cakeods,cakehs,nozzle,layerheight,numsides,GooCoefficient,feedrate,-1,0,htrans,vtrans);">Change</button>
 <input type="number" id="aspeed" name="as" style="width: 6em" value=2 min=0>
-<label for="aspeed">Animation speed (segments per frame)</label>
-<br>
+<label for="aspeed" style="width: 144px; display: inline-block;">Speed</label>
+
 <button onclick="animlength = parseFloat(document.getElementById('alength').value);">Change</button>
 <input type="number" id="alength" name="al" style="width: 6em" value=8 min=1>
-<label for="alength">Animated path length (segments)</label>
+<label for="alength" >Path length</label>
 <br>
 <button onclick="time=Math.floor(parseInt(document.getElementById('jumpi').value)/animspeed)">Jump</button>
 <input type="number" id="jumpi" name="ji" style="width: 6em" value=0 min=0>
@@ -533,13 +571,9 @@ Generate or update G-code file for download and 3d printing.
         </div>
     </div>
     <meta charset="UTF-8"> 
-    <title>Cak3d v27 by Andrew Kane</title>
+    <title>Cak3d v32 by Andrew Kane</title>
     <style></style>
 </head>
-Nozzle size will set the extrusion width.  Normally you want this equal too or a little bigger than your actual nozzle diameter.<br>
-Height one is the starting height--normally one layer height, but it can be a little more or less to tweak relative bed height. <br>
-Height one can also be set to higher values for special purposes like splicing gcode fragments or unusual machine setups.<br>
-Changes are not applied until the user clicks the "change" button next to the value. <br>
-The "Create a Gcode file" button creates a download link, click it to download a gcode file to print your object.<br>
+<a href="cak3dhelp.html">Help</a>
 
 </html>

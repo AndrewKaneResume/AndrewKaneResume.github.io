@@ -8,9 +8,12 @@ function mouseMoveHandler(e) {
 }
 document.addEventListener("mousedown", mouseDownHandler, false);
 function mouseDownHandler(e) {
-	mousedownx = mousex;
-	mousedowny = mousey;
+	mousedownx = e.clientX;
+	mousedowny = e.clientY;
+	mousedx = 0;
+	mousedy = 0;
     var inbounds = false;
+	if (mousedownx>sidepreviewx){lefthand=false;}else{lefthand=true;}
 	if ((mousex>0)&&(mousex<canvas.width)&&(mousey>0)&&(mousey<canvas.height)){ inbounds = true; }
     var mselect = document.getElementById("mselect").checked;
     if (mselect&&inbounds){
@@ -85,5 +88,6 @@ function mouseUpHandler(e) {
 				}
 			}
 		freshcake();
+		freshstagevalues();
 		}
 	}
