@@ -80,8 +80,8 @@ a:visited {
       Written in javascript with Express and Socket.io, running on a Node.js server.<br>
       <a href="Cak3d.html">Cak3d</a>
       , a CAD program for 3d printing user defined rotationally symmetric parts from a continuous extrusion of plastic. <br>
-      <a href="notaslicer52.html">NotASlicer, </a>
-       a CAD program for 3d printing user-defined closed-loop paths.<br>
+      <a href="notaslicer52.html">NotASlicer</a>
+      , a CAD program for 3d printing user-defined closed-loop paths.<br>
       <br>
       <a href="https://github.com/kanethemediocre">My programs on Github</a> <br>
       <h3>Languages:</h3>
@@ -143,10 +143,13 @@ canvas = document.getElementById("myCanvas"); //canvas is the draw sauce.
 context = canvas.getContext("2d");
 context.canvas.width  = window.innerWidth-24; //This overrides the 1600x900 established in html.
 context.canvas.height = window.innerHeight-24;
+var overheight = document.body.clientHeight;
+if (overheight>context.canvas.height){context.canvas.height = overheight;}
+console.log(overheight)
 let demosystem = new System(0,"demo",0,0);
 	let sun = new Umo(0, 0, 64, "yellow"); //planet initialization/////////////
 	sun.name = "";
-  sun.c2="yellow";
+  sun.c2="beige";
 	let murc = new Umo(0,8000,32,"brown");//1//initial position irrelevant
 	murc.name = "";
 	murc.setorbit(sun, 220, Math.random()*6, 1);
@@ -193,6 +196,7 @@ demosystem.enemypopulate(5,4,10);
 let demofield = new Starfield(30000,20000,64,1000,4000,16);
 var pz = 0;
 function update(){
+
   if (pz<demofield.zmax){ pz=pz+0.01; }
   else {pz = 0;}
   context.fillStyle = "black";//"skyblue";//Background
