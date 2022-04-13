@@ -7,6 +7,7 @@ class Discperimeter{
 		this.n=n;
 		this.ht=ht;
 		this.vt=vt;
+		this.f = f;
 		this.x=x;
 		this.y=y;
 		this.xpath = [];
@@ -23,7 +24,7 @@ class Discperimeter{
 			else {lastepath = estart;}
 			var segdistance = (this.r)*2*Math.PI/n;
 			this.epath.push(lastepath+segdistance*g);
-			this.fpath.push(f);
+			this.fpath.push(this.f);
 			if (i>(this.n-this.ht)){//Assumes somethingpath.length == i
 				var ddr = this.dr/this.ht;//r difference per point
 				var unnameable=i-(this.n-this.ht);

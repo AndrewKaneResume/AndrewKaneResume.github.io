@@ -33,7 +33,7 @@ class TaperCake{
 			this.ypath = this.ypath.concat(nextbushing.ypath);
 			this.zpath = this.zpath.concat(nextbushing.zpath);
 			this.epath = this.epath.concat(nextbushing.epath);
-			this.fpath = this.xpath.concat(nextbushing.fpath);
+			this.fpath = this.fpath.concat(nextbushing.fpath);
 			es = this.epath[this.epath.length-1];
 			i++;
 			}

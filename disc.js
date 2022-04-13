@@ -1,5 +1,6 @@
 class Disc{
 	constructor(x,y,r1,r2,h,dr,dz,n,g,f,dir,estart,ht,vt){//n is segments per "circle", g is extruder distance per travel, f is feedrate
+	console.log("r1="+r1+" r2="+r2);
 		this.x=x;
 		this.y=y;
 		var realr1 = -999
@@ -48,7 +49,7 @@ class Disc{
 			this.ypath = this.ypath.concat(newperimeter.ypath);
 			this.zpath = this.zpath.concat(newperimeter.zpath);
 			this.epath = this.epath.concat(newperimeter.epath);
-			this.fpath = this.xpath.concat(newperimeter.fpath);
+			this.fpath = this.fpath.concat(newperimeter.fpath);
 			r=r+dir*this.dr;
 			}
 		}

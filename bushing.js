@@ -23,12 +23,12 @@ class Bushing{
 		while(h<this.h2){
 			if (this.epath.length>0){var es = this.epath[this.epath.length-1];}
 			else{var es = estart;}
-			var newdisc = new Disc(this.x,this.y,this.r1,this.r2,h,this.dr,this.dz,this.n,this.g,this.f,dir,es,ht,vt);
+			var newdisc = new Disc(this.x,this.y,this.r1,this.r2,h,this.dr,this.dz,this.n,this.g,this.f,dir,es,ht,vt); //constructor(x,y,r1,r2,h,dr,dz,n,g,f,dir,estart,ht,vt){//n is segments per "circle", g is extruder distance per travel, f is feedrate
 			this.xpath = this.xpath.concat(newdisc.xpath);
 			this.ypath = this.ypath.concat(newdisc.ypath);
 			this.zpath = this.zpath.concat(newdisc.zpath);
 			this.epath = this.epath.concat(newdisc.epath);
-			this.fpath = this.xpath.concat(newdisc.fpath);
+			this.fpath = this.fpath.concat(newdisc.fpath);
 			var si= this.xpath.length-Math.floor(this.n/2);//si = sample index
 			var samplex = this.xpath[si]-centerx;
 			var sampley = this.ypath[si]-centery;
@@ -42,7 +42,7 @@ class Bushing{
 				this.ypath = this.ypath.concat(newdisc.ypath);
 				this.zpath = this.zpath.concat(newdisc.zpath);
 				this.epath = this.epath.concat(newdisc.epath);
-				this.fpath = this.xpath.concat(newdisc.fpath);
+				this.fpath = this.fpath.concat(newdisc.fpath);
 				var si= this.xpath.length-Math.floor(this.n/2);//si = sample index
 				var samplex = this.xpath[si]-centerx;
 				var sampley = this.ypath[si]-centery;

@@ -40,7 +40,7 @@ class TaperBushing{
 			this.ypath = this.ypath.concat(newdisc.ypath);
 			this.zpath = this.zpath.concat(newdisc.zpath);
 			this.epath = this.epath.concat(newdisc.epath);
-			this.fpath = this.xpath.concat(newdisc.fpath);
+			this.fpath = this.fpath.concat(newdisc.fpath);
 			var si= this.xpath.length-Math.floor(this.n/2);//si = sample index
 			var samplex = this.xpath[si]-centerx;
 			var sampley = this.ypath[si]-centery;
@@ -57,7 +57,7 @@ class TaperBushing{
 				this.ypath = this.ypath.concat(newdisc.ypath);
 				this.zpath = this.zpath.concat(newdisc.zpath);
 				this.epath = this.epath.concat(newdisc.epath);
-				this.fpath = this.xpath.concat(newdisc.fpath);
+				this.fpath = this.fpath.concat(newdisc.fpath);
 				var si= this.xpath.length-Math.floor(this.n/2);//si = sample index
 				var samplex = this.xpath[si]-centerx;
 				var sampley = this.ypath[si]-centery;

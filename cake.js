@@ -19,23 +19,26 @@ class Cake{
 		this.zpath = [];
 		this.epath = [];
 		this.fpath = [];
-		var firstbushing = new Bushing(this.x,this.y,this.ids[0],this.ods[0],this.hs[0],this.hs[1],this.dr,this.dz,this.n,this.g,this.f,this.dir,this.estart,this.ht,this.vt);
+		var firstbushing = new Bushing(this.x,this.y,this.ids[0],this.ods[0],this.hs[0],this.hs[1],this.dr,this.dz,this.n,this.g,this.f,this.dir,this.estart,this.ht,this.vt);//constructor(x,y,r1,r2,h1,h2,dr,dz,n,g,f,dir,estart,ht,vt){
 		this.xpath = this.xpath.concat(firstbushing.xpath);
 		this.ypath = this.ypath.concat(firstbushing.ypath);
 		this.zpath = this.zpath.concat(firstbushing.zpath);
 		this.epath = this.epath.concat(firstbushing.epath);
-		this.fpath = this.xpath.concat(firstbushing.fpath);
+		this.fpath = this.fpath.concat(firstbushing.fpath);
 		var i=1;
-		while(i<ids.length){
+		var nexte = this.epath[this.epath.length-1];
+		while(i<this.ids.length){
 			var thedir = 1;
 			var avgrad = (this.ids[i]+this.ods[i])/2;
 			if (avgrad<this.xpath[this.xpath.length-1]-this.x){thedir = -1;}
-			var nextbushing = new Bushing(this.x,this.y,this.ids[i],this.ods[i],this.hs[i],this.hs[i+1],this.dr,this.dz,this.n,this.g,this.f,thedir,this.estart,this.ht,this.vt);
+			var nextbushing = new Bushing(this.x,this.y,this.ids[i],this.ods[i],this.hs[i],this.hs[i+1],this.dr,this.dz,this.n,this.g,this.f,thedir,nexte,this.ht,this.vt);
 			this.xpath = this.xpath.concat(nextbushing.xpath);
 			this.ypath = this.ypath.concat(nextbushing.ypath);
 			this.zpath = this.zpath.concat(nextbushing.zpath);
 			this.epath = this.epath.concat(nextbushing.epath);
-			this.fpath = this.xpath.concat(nextbushing.fpath);
+			this.fpath = this.fpath.concat(nextbushing.fpath);
+			var nexte = this.epath[this.epath.length-1];
+			console.log("loopinyo");
 			i++;
 			}
 		}
