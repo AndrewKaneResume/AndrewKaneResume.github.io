@@ -38,7 +38,6 @@ class Cake{
 			this.epath = this.epath.concat(nextbushing.epath);
 			this.fpath = this.fpath.concat(nextbushing.fpath);
 			var nexte = this.epath[this.epath.length-1];
-			console.log("loopinyo");
 			i++;
 			}
 		}

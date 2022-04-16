@@ -22,19 +22,21 @@ class TaperCake{
 		var es = this.estart;
 		var i=1;
 		while(i<ids.length){
-			var thedir = this.dir;
-			var avgrad = (this.ids[i]+this.ods[i])/2;
-			if (this.xpath.length>0){
-				if (avgrad<this.xpath[this.xpath.length-1]-this.x){thedir = -1;}
-				else {thedir = 1;}
+			if (this.hs[i-1]-this.hs[i]!=0){//This skips sections with 0 height.
+				var thedir = this.dir;
+				var avgrad = (this.ids[i]+this.ods[i])/2;
+				if (this.xpath.length>0){
+					if (avgrad<this.xpath[this.xpath.length-1]-this.x){thedir = -1;}
+					else {thedir = 1;}
+					}
+				var nextbushing = new TaperBushing(this.x,this.y,this.ids[i-1],this.ids[i],this.ods[i-1],this.ods[i],this.hs[i-1],this.hs[i],this.dr,this.dz,this.n,this.g,this.f,thedir,es,this.ht,this.vt);
+				this.xpath = this.xpath.concat(nextbushing.xpath);
+				this.ypath = this.ypath.concat(nextbushing.ypath);
+				this.zpath = this.zpath.concat(nextbushing.zpath);
+				this.epath = this.epath.concat(nextbushing.epath);
+				this.fpath = this.fpath.concat(nextbushing.fpath);
+				es = this.epath[this.epath.length-1];
 				}
-			var nextbushing = new TaperBushing(this.x,this.y,this.ids[i-1],this.ids[i],this.ods[i-1],this.ods[i],this.hs[i-1],this.hs[i],this.dr,this.dz,this.n,this.g,this.f,thedir,es,this.ht,this.vt);
-			this.xpath = this.xpath.concat(nextbushing.xpath);
-			this.ypath = this.ypath.concat(nextbushing.ypath);
-			this.zpath = this.zpath.concat(nextbushing.zpath);
-			this.epath = this.epath.concat(nextbushing.epath);
-			this.fpath = this.fpath.concat(nextbushing.fpath);
-			es = this.epath[this.epath.length-1];
 			i++;
 			}
 		}
