@@ -64,6 +64,16 @@ Q: Whose questions are these anyways?<br>
 A: Wouldn't you like to know.  Probably yo momma. <br>
 <br>
 Q: How accurate are the parts? <br>
-A: Accuracy in part depends on the printer, but round-off error regarding the whole number of perimeters in a given 2D slice can reduce the accuracy.  Although the command line Python predecessor to this program would alter the extrusion width (nozzle size) as needed, currently Cak3d just fits as many perimeters as will fit at the specified size, so round-off errors up to the nozzle size in magnitude are to be expected. This round-off error can sometimes be eliminated with careful choice of nozzle size for your part.<br>.
+A: Accuracy in part depends on the printer.  The latest version will increase the extrusion width (nozzle size) as needed to theoretically get an exact solution,
+but I've observed this process isn't perfect, although it achieves much better accuracy than just rounding off the number of perimeters. This round-off error can sometimes be eliminated with careful choice of nozzle size for your part.
+  Expect to see an error of less than half of your nozzle size, and if you can afford the plastic, a little trial and error can dial in a perfect repeatable size.  
+  There is also some error in the shape of the parts, which are treated as N-sided polygons (32 being the default).  Larger values of N can be set to better approximate a circle.  
+  Height is handled purely on a round-off basis, so don't expect better height accuracy than your layer thickness. <br>.
+<br>
+Q: Why do I need to "export to console" ?  How do I get my gcode out of the console? <br>
+A: Not entirely sure why the file export is slow and flakey, but in any case "export to console" works perfectly.
+  In Chrome, ctrl-shift-I on the keyboard will bring up the developer console, or using the menus "..."-->"More tools"-->"Developer tools".
+  There will be a helpful clickable button on any long console entries (like exported gcode) to copy the text of the log entry.  Click it, then paste the text into an empty text file, and name it something.gcode.
+
 </body>
 </html>

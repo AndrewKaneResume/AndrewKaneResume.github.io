@@ -136,4 +136,12 @@ class TaperCake{
 			console.log(dr1+" "+dr2+" "+dh)
 		return [closesti,closesttype,closestdistance];
 		}
+	insertstage(cakelevel){
+		this.ids.splice(cakelevel+1, 0,this.ids[cakelevel]);//inner and outer radii are matched to previous
+		this.ods.splice(cakelevel+1, 0,this.ods[cakelevel]);
+		this.hs.splice(cakelevel+1, 0,this.hs[cakelevel]+1);//height of new segment is set to previous segment + 1.
+	}
+	
+	
+	
 	}

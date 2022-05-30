@@ -28,11 +28,11 @@ class Disc{
 		this.epath = [];
 		this.fpath = [];
 		this.dir = dir;
-		console.log("r1="+this.r1+" r2="+this.r2+" dr="+this.dr);
+		//console.log("r1="+this.r1+" r2="+this.r2+" dr="+this.dr);
 		var rthick = this.r2-this.r1;
 		var rperimeters = rthick/this.dr;
 		var rleftover = rthick/this.dr - Math.floor(rthick/this.dr);
-		console.log("rthick="+rthick+" rperimeters="+rperimeters+" rleftover="+rleftover);
+		//console.log("rthick="+rthick+" rperimeters="+rperimeters+" rleftover="+rleftover);
 		if (rleftover>this.dr*0.025){//arbitrary cutoff, allows for 2.5% error without attempting to correct.
 			var newdr = this.dr+rleftover/rperimeters;//might need a floating point fudge here
 			var newg = this.g*newdr/this.dr;
@@ -63,7 +63,7 @@ class Disc{
 			this.epath = this.epath.concat(newperimeter.epath);
 			this.fpath = this.fpath.concat(newperimeter.fpath);
 			r=r+dir*this.dr;
-			console.log("disclooprunning");
+			//console.log("disclooprunning");
 			}
 		}
 	}
